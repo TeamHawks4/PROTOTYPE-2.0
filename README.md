@@ -26,6 +26,7 @@
 
 ### 📊 Dashboards & Analytics
 - **Power BI** – Dynamic dashboards and data visualizations for insights on environmental trends, user behavior, and model performance
+- **Shiny Dashboard** for real-time in-app visualization (Plotly, dplyr)
 
 ### 🧠 Machine Learning Model
 - **Artificial Neural Network (ANN)** for robust and accurate carbon footprint prediction
@@ -43,6 +44,7 @@
 - ✅ ANN-powered model ensures prediction accuracy
 - ✅ Real-time, personalized sustainability suggestions
 - ✅ Power BI dashboards for actionable insights and monitoring
+- ✅ Visualize and filter metrics through dashboard tabs
 - ✅ Cloud-based deployment for seamless access
 - ✅ Educational and impactful – designed to encourage sustainable habits
 
