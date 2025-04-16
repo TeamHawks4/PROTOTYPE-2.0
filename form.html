@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulseX - Your Progress</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="climate.css">
+    <style>
+        /* --- Form Specific Styles --- */
+        .form-container {
+            padding: 40px 20px; /* Consistent padding */
+            max-width: 800px; /* Keep form readable */
+            margin: 20px auto; /* Center the container */
+        }
+
+        .form-section {
+            padding: 30px;
+            /* Inherits .glass style from climate.css */
+        }
+
+        .form-section h1 {
+            text-align: center;
+            color: var(--primary-color, #2ecc71); /* Use primary color */
+            margin-bottom: 30px;
+            font-size: 2em; /* Adjust size */
+            border-bottom: 1px solid var(--border-glass, rgba(255, 255, 255, 0.2));
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 25px; /* Increased spacing */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-color, #eee); /* Match site text color */
+        }
+        body.dark-theme label {
+             color: var(--text-color-dark, #ccc);
+        }
+
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px 15px; /* Slightly larger padding */
+            border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.3));
+            border-radius: 5px; /* Consistent border radius */
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.05); /* Subtle background */
+            color: var(--text-color, #eee); /* Match text color */
+            font-size: 1em;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+        body.dark-theme input[type="number"],
+        body.dark-theme input[type="text"],
+        body.dark-theme select {
+             background-color: rgba(0, 0, 0, 0.1);
+             color: var(--text-color-dark, #ccc);
+             border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color, #2ecc71);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+         body.dark-theme input[type="number"]:focus,
+         body.dark-theme input[type="text"]:focus,
+         body.dark-theme select:focus {
+             background-color: rgba(0, 0, 0, 0.2);
+         }
+
+        /* Style select dropdown arrow */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23cccccc" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Simple dropdown arrow */
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px;
+            padding-right: 40px; /* Make space for arrow */
+        }
+         body.dark-theme select {
+             background-image: url('data:image/svg+xml;utf8,<svg fill="%23aaaaaa" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+         }
+
+
+        /* Use button styles from climate.css */
+        button[type="submit"] {
+            /* Inherit .btn and .primary styles */
+            width: 100%;
+            margin-top: 15px; /* Add some space above button */
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 20px;
+        }
+        .form-row .form-group {
+            flex: 1;
+            min-width: 200px; /* Prevent fields from becoming too narrow */
+        }
+
+        /* Alert styling (optional, if you use JS alerts) */
+        /* You might want a custom modal instead of default alert */
+
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+
+    <!-- Header -->
+    <header class="glass">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <h1>EcoPulseX</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="form.html" class="active">Your Progress</a></li>
+                <li><a href="community.html">Community Engagement</a></li>
+                <li><a href="learnmore.html">Learn More</a></li>
+                <li><a href="#" id="theme-toggle"><i class="fas fa-moon"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Form Main Content -->
+    <main class="form-container">
+        <section class="form-section glass">
+            <h1><i class="fas fa-edit"></i> Your Progress Update</h1>
+            <form id="footprintForm" action="/submit-footprint" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age"><i class="fas fa-birthday-cake"></i> Age:</label>
+                        <input type="number" id="age" name="age" min="1" max="120" required placeholder="e.g., 25">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender"><i class="fas fa-venus-mars"></i> Gender:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="travel_distance"><i class="fas fa-route"></i> Daily Travel Distance (km):</label>
+                    <input type="number" id="travel_distance" name="travel_distance" min="0" step="0.1" required placeholder="e.g., 15.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="transport_mode"><i class="fas fa-bus"></i> Primary Transport Mode:</label>
+                    <select id="transport_mode" name="transport_mode" required>
+                        <option value="" disabled selected>Select Transport Mode</option>
+                        <option value="Car (Gasoline)">Car (Gasoline)</option>
+                        <option value="Car (Electric)">Car (Electric)</option>
+                        <option value="Motorbike">Motorbike</option>
+                        <option value="Public Transport (Bus/Train)">Public Transport (Bus/Train)</option>
+                        <option value="Bicycle">Bicycle</option>
+                        <option value="Walking">Walking</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="food_type"><i class="fas fa-utensils"></i> Primary Diet Type:</label>
+                    <select id="food_type" name="food_type" required>
+                        <option value="" disabled selected>Select Diet Type</option>
+                        <option value="Meat Heavy">Meat Heavy (Daily)</option>
+                        <option value="Meat Moderate">Meat Moderate (Few times/week)</option>
+                        <option value="Vegetarian">Vegetarian (Includes dairy/eggs)</option>
+                        <option value="Vegan">Vegan (Plant-based only)</option>
+                        <option value="Pescatarian">Pescatarian (Fish, no other meat)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="electricity_usage"><i class="fas fa-bolt"></i> Average Daily Electricity Usage (kWh):</label>
+                    <input type="number" id="electricity_usage" name="electricity_usage" min="0" step="0.1" required placeholder="e.g., 10.2 (Check your bill or estimate)">
+                </div>
+
+                <div class="form-group">
+                    <label for="social_media_hours"><i class="fas fa-mobile-alt"></i> Daily Social Media Usage (hours):</label>
+                    <input type="number" id="social_media_hours" name="social_media_hours" min="0" max="24" step="0.5" required placeholder="e.g., 2.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="steps_walked"><i class="fas fa-walking"></i> Average Daily Steps Walked:</label>
+                    <input type="number" id="steps_walked" name="steps_walked" min="0" required placeholder="e.g., 8000 (Check phone/tracker)">
+                </div>
+
+                <div class="form-group">
+                    <label for="charging_station_usage"><i class="fas fa-charging-station"></i> Weekly EV Charging (kWh, if applicable):</label>
+                    <input type="number" id="charging_station_usage" name="charging_station_usage" min="0" step="0.1" placeholder="e.g., 40 (Leave 0 if not applicable)">
+                    <small style="color: var(--text-muted-color); font-size: 0.85em;">Enter total kWh charged per week if you use an Electric Vehicle.</small>
+                </div>
+
+                <button type="submit" class="btn primary"><i class="fas fa-paper-plane"></i> Submit Progress</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>EcoPulseX</h3>
+                <p>Empowering individuals to fight climate change through awareness and action.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="form.html">Your Progress</a></li>
+                    <li><a href="learnmore.html">Learn More</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i>teamhawks4.official@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 EcoPulseX. All rights reserved.</p>
+            <p>&copy; Backend By SupaBase.</p>
+        </div>
+    </footer>
+
+    <!-- Link to climate.js for theme toggle and potential future form interactions -->
+    <script src="climate.js"></script>
+    <script>
+        // Keep the basic form validation, but consider enhancing it or using a library
+        document.getElementById('footprintForm').addEventListener('submit', function(e) {
+            // Basic client-side validation example (can be expanded)
+            const ageInput = document.getElementById('age');
+            const age = parseInt(ageInput.value);
+            if (ageInput.value === '' || age < 1 || age > 120) {
+                alert('Please enter a valid age between 1 and 120.');
+                e.preventDefault(); // Stop submission
+                ageInput.focus(); // Focus the invalid field
+                return;
+            }
+
+            const travelDistInput = document.getElementById('travel_distance');
+            if (travelDistInput.value === '' || parseFloat(travelDistInput.value) < 0) {
+                 alert('Please enter a valid daily travel distance (0 or more).');
+                 e.preventDefault();
+                 travelDistInput.focus();
+                 return;
+            }
+
+            // Add more validation checks for other required fields as needed...
+
+            // If using AJAX submission in the future, prevent default and handle here
+            // e.preventDefault();
+            // console.log('Form data ready for submission (or AJAX)');
+            // Example: Gather form data
+            // const formData = new FormData(this);
+            // fetch('/submit-footprint', { method: 'POST', body: formData })
+            //    .then(response => response.json())
+            //    .then(data => console.log(data))
+            //    .catch(error => console.error('Error:', error));
+
+            // For now, allow default form submission if validation passes
+             console.log('Validation passed, allowing default form submission.');
+             // No e.preventDefault() here if you want the standard POST action
+        });
+    </script>
+</body>
+</html>
+<script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+  
+    const supabaseUrl = 'https://lobbplgbtxuddszlhxxd.supabase.co'
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxvYmJwbGdidHh1ZGRzemxoeHhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MDUyMDUsImV4cCI6MjA2MDM4MTIwNX0.7utg0ORvZDxTFJOJbFLW-2rHwWEKiz-EpimD2QmEgG4'
+    const supabase = createClient(supabaseUrl, supabaseKey)
+  
+    document.getElementById('footprintForm').addEventListener('submit', async (e) => {
+      e.preventDefault()
+  
+      const data = {
+        age: parseInt(document.getElementById('age').value),
+        gender: document.getElementById('gender').value,
+        travel_distance: parseFloat(document.getElementById('travel_distance').value),
+        transport_mode: document.getElementById('transport_mode').value,
+        food_type: document.getElementById('food_type').value,
+        electricity_usage: parseFloat(document.getElementById('electricity_usage').value),
+        social_media_hours: parseFloat(document.getElementById('social_media_hours').value),
+        steps_walked: parseInt(document.getElementById('steps_walked').value),
+        charging_station_usage: parseFloat(document.getElementById('charging_station_usage').value || 0)
+      }
+  
+      const { error } = await supabase.from('progress_data').insert([data])
+  
+      if (error) {
+        alert('Error: ' + error.message)
+      } else {
+        alert('Thanks for submitting your progress!')
+        document.getElementById('footprintForm').reset()
+      }
+    })
+  </script>

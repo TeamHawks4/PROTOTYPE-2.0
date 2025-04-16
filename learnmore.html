@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulseX - Learn More</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="climate.css">
+    <!-- Specific styles for learn more page -->
+    <style>
+        .learn-more-container {
+            padding: 40px 20px;
+            max-width: 900px; /* Adjusted for readability */
+            margin: 20px auto;
+        }
+
+        .learn-more-section {
+            padding: 30px;
+            margin-bottom: 30px;
+            /* Inherits .glass style from climate.css */
+        }
+
+        .learn-more-section h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: var(--primary-color, #2ecc71);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-glass, rgba(255, 255, 255, 0.2));
+            padding-bottom: 10px;
+        }
+         .learn-more-section h2 i {
+             font-size: 0.9em;
+         }
+
+        .learn-more-section h3 {
+            font-size: 1.4em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: var(--accent-color, #f1c40f);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+         .learn-more-section h3 i {
+             font-size: 0.9em;
+         }
+
+        /* Added h4 styling for consistency */
+        .learn-more-section h4 {
+            font-size: 1.15em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: var(--primary-color, #2ecc71); /* Or adjust color */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+         .learn-more-section h4 i {
+             font-size: 0.9em;
+         }
+
+
+        .learn-more-section p,
+        .learn-more-section li {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            color: var(--text-color, #eee); /* Default light theme text */
+        }
+        body.dark-theme .learn-more-section p,
+        body.dark-theme .learn-more-section li {
+             color: var(--text-color-dark, #ccc); /* Dark theme text */
+        }
+
+
+        .learn-more-section ul {
+            list-style: none;
+            padding-left: 0; /* Remove default padding */
+            margin-left: 1.5em; /* Indent list items */
+        }
+
+        .learn-more-section li {
+            position: relative; /* Needed for absolute positioning of ::before */
+            padding-left: 0.5em; /* Space between icon and text */
+        }
+
+        .learn-more-section li::before {
+            content: '✓'; /* Default checkmark */
+            color: var(--primary-color, #2ecc71);
+            font-weight: bold;
+            position: absolute;
+            left: -1.2em; /* Position icon outside the text flow */
+            top: 0.1em; /* Adjust vertical alignment */
+            width: 1.2em;
+            text-align: center;
+        }
+
+        /* Specific icon for tech overview list */
+        .learn-more-section .tech-overview li::before {
+             content: '🧩';
+             left: -1.5em; /* Adjust position for wider emoji */
+             width: 1.5em;
+        }
+
+
+        .learn-more-section strong {
+            color: var(--primary-color, #2ecc71);
+            font-weight: 600;
+        }
+
+        .learn-more-section .highlight {
+             color: var(--accent-color, #f1c40f);
+             font-style: italic;
+        }
+
+        /* Inline icon styling helper */
+        .icon-primary { color: var(--primary-color, #2ecc71); }
+        .icon-accent { color: var(--accent-color, #f1c40f); }
+
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+
+    <!-- Header -->
+    <header class="glass">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <h1>EcoPulseX</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="form.html">Your Progress</a></li>
+                <li><a href="community.html">Community Engagement</a></li>
+                <li><a href="learnmore.html" class="active">Learn More</a></li>
+                <li><a href="#" id="theme-toggle"><i class="fas fa-moon"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Learn More Main Content -->
+    <main class="learn-more-container">
+        <section class="learn-more-section glass">
+            <h2><i class="fas fa-globe-americas"></i> Welcome to EcoPulseX</h2>
+            <p>Your Personal Climate Companion – helping you understand, reduce, and act on your carbon footprint while having fun doing it!</p>
+
+            <h3><i class="fas fa-info-circle"></i> What is EcoPulseX?</h3>
+            <p>EcoPulseX is an all-in-one climate action platform built for individuals and communities who care about the planet. We make it easy to track your carbon footprint, understand your environmental impact, and get smart, personalized recommendations powered by Machine Learning — all while keeping it fun and rewarding <i class="fas fa-seedling icon-primary"></i><i class="fas fa-star icon-accent"></i></p>
+
+            <h3><i class="fas fa-search"></i> Features at a Glance</h3>
+
+            <h4><i class="fas fa-calculator"></i> Carbon Footprint Tracker</h4>
+            <ul>
+                <li>Input your daily or weekly lifestyle data (travel, electricity use, diet, shopping, etc.) through our simple form.</li>
+                <li>Our intelligent system calculates your estimated CO₂ emissions and breaks it down by category.</li>
+            </ul>
+
+            <h4><i class="fas fa-brain"></i> AI-Powered Insights & Recommendations</h4>
+            <p>EcoPulseX uses an ML model trained on real-world emission data and sustainable behavior patterns to:</p>
+            <ul>
+                <li>Provide visual insights into your footprint.</li>
+                <li>Suggest personalized, actionable eco-tips to help reduce your impact.</li>
+            </ul>
+
+            <h4><i class="fas fa-gamepad"></i> Eco Game & Community Engagement</h4>
+            <p>What if saving the Earth could be fun?</p>
+            <ul>
+                <li>Play our engaging eco-game to learn while you earn!</li>
+                <li>Complete green challenges and trivia to gain points.</li>
+            </ul>
+
+            <h4><i class="fas fa-trophy"></i> Point System & Leaderboard</h4>
+            <ul>
+                <li>Earn points for eco-friendly behavior, tracking your activities, and playing the game.</li>
+                <li>The top contributors will be featured on our live leaderboard and become eligible for exciting EcoPulseX Swags! <i class="fas fa-gift icon-primary"></i><i class="fas fa-star icon-accent"></i></li>
+            </ul>
+        </section>
+
+        <section class="learn-more-section glass">
+            <h2><i class="fas fa-cogs"></i> How It Works (Tech Overview)</h2>
+            <ul class="tech-overview">
+                <li><strong>User Input Form:</strong> Accepts lifestyle data (e.g., km traveled, kWh used, meal types).</li>
+                <li><strong>ML Model:</strong> Analyses your data and predicts your carbon emissions & suggestions.</li>
+                <li><strong>Supabase:</strong> Manages authentication, real-time leaderboard, and data storage.</li>
+                <li><strong>Game Engine:</strong> Engages the community through challenges and trivia.</li>
+                <li><strong>Points Engine:</strong> Tracks and ranks your contribution to the climate cause.</li>
+            </ul>
+        </section>
+
+        <section class="learn-more-section glass">
+            <h2><i class="fas fa-heartbeat"></i> Why It Matters</h2>
+            <p>EcoPulseX isn’t just a tool — it’s a <span class="highlight">movement</span>.</p>
+            <ul>
+                <li>Understand your role in fighting climate change.</li>
+                <li>Join a community of like-minded individuals.</li>
+                <li>Take small steps that make a big difference.</li>
+            </ul>
+            <p>Together, we’re building a greener, more conscious future <i class="fas fa-leaf icon-primary"></i><i class="fas fa-heart icon-primary"></i></p>
+        </section>
+
+        <section class="learn-more-section glass">
+             <h2><i class="fas fa-comments"></i> Got Feedback?</h2>
+             <p>We’re constantly evolving! Share your thoughts, suggestions, or ideas with us through the Contact section — let’s build a sustainable world, one pulse at a time.</p>
+             <!-- Optional: Link to a contact page if you create one -->
+             <!-- <a href="contact.html" class="btn primary" style="display: block; text-align: center; margin-top: 15px;">Share Your Feedback</a> -->
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>EcoPulseX</h3>
+                <p>Empowering individuals to fight climate change through awareness and action.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="form.html">CYour Progress</a></li>
+                    <li><a href="learnmore.html">Learn More</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> teamhawks4.official@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 EcoPulseX. All rights reserved.</p>
+            <p>&copy; Backend By SupaBase.</p>
+        </div>
+    </footer>
+
+    <!-- Link to climate.js for theme toggle -->
+    <script src="climate.js"></script>
+</body>
+</html>

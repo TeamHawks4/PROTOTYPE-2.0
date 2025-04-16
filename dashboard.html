@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulseX - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="climate.css">
+    <style>
+        /* --- Base Font Settings --- */
+        body {
+            font-family: 'Poppins', sans-serif; /* Apply Poppins globally */
+            font-size: 16px; /* Base font size */
+            line-height: 1.6; /* Default line height for readability */
+            font-weight: 400; /* Default weight */
+        }
+
+        /* --- Headings --- */
+        h1, h2, h3, h4 {
+            font-weight: 600; /* Make headings bolder */
+            letter-spacing: 0.5px; /* Slightly wider spacing */
+        }
+
+        .dashboard-header h2 {
+            font-size: 1.8em; /* Slightly larger main dashboard title */
+            font-weight: 700;
+        }
+
+        .info-card h3,
+        .tab-content h3 { /* Headings within info cards and tabs */
+            font-size: 1.25em; /* Adjust size */
+            font-weight: 600;
+            margin-bottom: 18px; /* Consistent spacing */
+            /* Keep existing border/padding from previous styles */
+             padding-bottom: 10px;
+             border-bottom: 1px solid var(--border-glass, rgba(255, 255, 255, 0.2));
+             display: flex; /* Keep icon alignment */
+             align-items: center;
+             gap: 8px;
+        }
+         .info-card h3 i { /* Keep icon color */
+             color: var(--primary-color, #2ecc71);
+         }
+
+        .suggestions h3 { /* Keep suggestions heading size consistent */
+             font-size: 1.25em;
+        }
+
+        .suggestion-content h4 {
+            font-size: 1.1em;
+            font-weight: 500; /* Slightly less bold than main headings */
+            margin-bottom: 6px;
+        }
+
+        /* --- Body Text & Lists --- */
+        p, li {
+            font-size: 0.95em; /* Slightly smaller than base for content */
+            line-height: 1.7; /* Increase line height for paragraphs/lists */
+        }
+        body.dark-theme p, body.dark-theme li {
+             color: var(--text-color-dark, #d1d1d1); /* Slightly lighter dark theme text */
+        }
+
+        .info-card li {
+             font-size: 0.9em; /* Smaller text for tips/averages list */
+             gap: 10px;
+             /* Keep existing flex/alignment */
+             display: flex;
+             align-items: flex-start;
+        }
+        .info-card.rules li i { /* Keep icon styling */
+            color: var(--primary-color, #2ecc71);
+            margin-top: 3px;
+            min-width: 16px;
+            text-align: center;
+        }
+        .info-card.monthly-avg p {
+             font-size: 0.85em;
+             /* Keep existing color/margin */
+             color: var(--text-muted-color, #ccc);
+             margin-bottom: 10px;
+        }
+        .info-card.monthly-avg li {
+            /* Keep existing layout/border */
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px dashed var(--border-glass, rgba(255, 255, 255, 0.1));
+        }
+         .info-card.monthly-avg li:last-child {
+             border-bottom: none;
+             margin-top: 10px;
+         }
+        .info-card.monthly-avg span {
+             font-weight: 500; /* Medium weight for average values */
+             /* Keep existing color/margin */
+             color: var(--accent-color, #f1c40f);
+             margin-left: 10px;
+        }
+         .info-card.monthly-avg li strong span {
+             font-weight: 600; /* Bolder total */
+             /* Keep existing color */
+             color: var(--primary-color, #2ecc71);
+         }
+
+        .suggestion-content p,
+        .goal-content p {
+            font-size: 0.9em;
+            color: var(--text-muted-color, #ccc);
+        }
+        body.dark-theme .suggestion-content p,
+        body.dark-theme .goal-content p {
+             color: var(--text-muted-color-dark, #aaa);
+        }
+
+        .goal-meta span {
+            font-size: 0.85em;
+        }
+
+        /* --- Buttons & Tabs --- */
+        .tab-button {
+            font-weight: 500; /* Medium weight for tab text */
+            font-size: 0.95em;
+            /* Keep existing padding/border/etc */
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.2));
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted-color, #ccc);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .tab-button.active {
+            font-weight: 600; /* Bolder active tab */
+            /* Keep existing active styles */
+            background-color: var(--bg-glass, rgba(255, 255, 255, 0.1));
+            color: var(--primary-color, #2ecc71);
+            border-color: var(--border-glass, rgba(255, 255, 255, 0.2));
+        }
+        .btn { /* Apply to all buttons using .btn class */
+            font-weight: 500;
+            font-size: 0.95em;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Chart Legend --- */
+        .chart-legend .legend-item span {
+            font-size: 0.85em;
+        }
+
+        /* --- Existing Styles (Keep these) --- */
+        /* --- Tab Styles --- */
+        .tab-container {
+            margin-top: 20px;
+        }
+        .tab-buttons {
+            display: flex;
+            gap: 5px; /* Small gap between buttons */
+            margin-bottom: -1px; /* Overlap bottom border */
+            padding-left: 20px; /* Align with content padding */
+        }
+        /* .tab-button styles updated above */
+        /* .tab-button.active styles updated above */
+        body.dark-theme .tab-button {
+             background-color: rgba(0, 0, 0, 0.1);
+             border-color: rgba(255, 255, 255, 0.1);
+             color: #aaa;
+        }
+        body.dark-theme .tab-button.active {
+             background-color: var(--bg-glass-dark, rgba(0, 0, 0, 0.2));
+             border-color: rgba(255, 255, 255, 0.15);
+             color: var(--primary-color, #2ecc71);
+        }
+
+        .tab-content {
+            display: none; /* Hide all content by default */
+            padding: 30px;
+            border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.2));
+            border-radius: 0 8px 8px 8px; /* Match button radius */
+            /* Apply glass effect */
+            background: var(--bg-glass, rgba(255, 255, 255, 0.1));
+            backdrop-filter: var(--blur-glass, blur(10px));
+            -webkit-backdrop-filter: var(--blur-glass, blur(10px));
+            box-shadow: var(--shadow-glass, 0 4px 30px rgba(0, 0, 0, 0.1));
+        }
+        body.dark-theme .tab-content {
+             background: var(--bg-glass-dark, rgba(0, 0, 0, 0.2));
+             border-color: rgba(255, 255, 255, 0.15);
+        }
+        .tab-content.active {
+            display: block; /* Show active content */
+        }
+
+        /* Adjust section padding inside tabs if needed */
+        .tab-content .dashboard-section {
+            padding: 0; /* Remove default padding if sections are used inside */
+            margin-bottom: 25px;
+        }
+         .tab-content .dashboard-section:last-child {
+             margin-bottom: 0;
+         }
+         /* .tab-content h3 styles updated above */
+
+        /* --- Chart Enhancements --- */
+        .main-chart .chart-legend { /* Keep legend styling */
+            margin-top: 15px;
+            /* Add flex styles for better alignment if needed */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .color-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .color-dot.travel { background-color: rgba(231, 76, 60, 0.8); }
+        .color-dot.food { background-color: rgba(52, 152, 219, 0.8); }
+        .color-dot.shopping { background-color: rgba(155, 89, 182, 0.8); }
+        .color-dot.energy { background-color: rgba(241, 196, 15, 0.8); }
+
+        #emissionsChart { /* Ensure chart canvas is responsive */
+            max-height: 400px;
+        }
+        #sourceComparisonChart { /* Style for the new pie chart */
+             max-height: 350px;
+             margin: 0 auto; /* Center the doughnut */
+             max-width: 350px;
+        }
+
+        /* --- Styles for Breakdown Chart Container --- */
+        .breakdown-chart {
+            position: relative; /* Important for Chart.js responsiveness */
+            width: 100%; /* Allow it to fill the grid column */
+            max-width: 280px; /* Set a max size if desired (adjust as needed) */
+            aspect-ratio: 1 / 1; /* Maintain a square shape */
+            margin: 10px auto 0; /* Center the container and add some top margin */
+        }
+
+        /* Ensure canvas fills its container */
+        #breakdownChart {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        /* --- End Breakdown Chart Styles --- */
+
+
+        /* --- Responsive Adjustments for Tabs --- */
+        @media (max-width: 600px) {
+            .tab-buttons {
+                flex-wrap: wrap; /* Allow buttons to wrap */
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            .tab-button {
+                flex-grow: 1; /* Make buttons take available space */
+                text-align: center;
+                margin-bottom: 5px; /* Space when wrapped */
+                border-radius: 5px; /* Adjust radius for wrapped buttons */
+                border-bottom: 1px solid var(--border-glass, rgba(255, 255, 255, 0.2));
+            }
+            .tab-button.active {
+                 border-radius: 5px;
+            }
+            .tab-content {
+                border-radius: 8px; /* Consistent radius */
+                margin-top: 10px;
+                padding: 20px; /* Reduce padding on mobile */
+            }
+        }
+
+        /* Ensure dashboard sections inside tabs display correctly */
+        .tab-content .dashboard-main,
+        .tab-content .dashboard-secondary {
+            display: grid; /* Re-apply grid if needed */
+            gap: 20px;
+        }
+        /* Example: if dashboard-secondary was 2 columns */
+        .tab-content .dashboard-secondary {
+             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust minmax */
+        }
+
+        /* --- Dashboard Info Grid Styles --- */
+        .dashboard-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive columns */
+            gap: 20px;
+            margin-top: 20px; /* Space below the main heading */
+            padding: 15px; /* Add some padding inside the header */
+        }
+
+        .info-card {
+            padding: 20px;
+        }
+        /* .info-card h3 styles updated above */
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        /* .info-card li styles updated above */
+        /* .info-card.rules li i styles updated above */
+        /* .info-card.monthly-avg p styles updated above */
+        /* .info-card.monthly-avg li styles updated above */
+        /* .info-card.monthly-avg span styles updated above */
+        /* .info-card.monthly-avg li strong span styles updated above */
+
+        /* --- Suggestions List --- */
+        .suggestion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .suggestion-item {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            background-color: rgba(0,0,0,0.05);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary-color, #2ecc71);
+        }
+        body.dark-theme .suggestion-item {
+             background-color: rgba(255,255,255,0.05);
+        }
+        .suggestion-icon {
+            font-size: 1.5em;
+            color: var(--primary-color, #2ecc71);
+            margin-top: 3px;
+            min-width: 25px;
+            text-align: center;
+        }
+        .suggestion-content {
+            flex-grow: 1;
+        }
+        .suggestion-impact {
+            margin-top: 8px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        .suggestion-impact span {
+            color: var(--accent-color, #f1c40f);
+        }
+
+        /* --- Goals List --- */
+        .goal-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .goal-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .goal-progress {
+            flex-shrink: 0;
+        }
+        .goal-content {
+            flex-grow: 1;
+        }
+        .goal-content h4 {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .goal-meta {
+            font-size: 0.85em;
+            color: var(--text-muted-color, #ccc);
+            margin-top: 5px;
+        }
+         body.dark-theme .goal-meta {
+             color: var(--text-muted-color-dark, #aaa);
+         }
+        .progress-circle svg {
+            width: 70px; /* Adjust size */
+            height: 70px;
+        }
+        .progress-circle .progress-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1); /* Background circle color */
+        }
+        .progress-circle .progress-bar {
+            fill: none;
+            stroke: var(--primary-color, #2ecc71); /* Progress bar color */
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        .progress-circle text {
+            fill: var(--text-color, #eee); /* Text color */
+            font-size: 1.2em; /* Adjust text size */
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+         body.dark-theme .progress-circle text {
+             fill: var(--text-color-dark, #ccc);
+         }
+         body.dark-theme .progress-circle .progress-bg {
+             stroke: rgba(0, 0, 0, 0.2);
+         }
+
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+
+    <!-- Header -->
+    <header class="glass">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <h1>EcoPulseX</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="form.html">Your Progress</a></li>
+                <li><a href="community.html">Community Engagement</a></li>
+                <li><a href="learnmore.html">Learn More</a></li>
+                <li><a href="#" id="theme-toggle"><i class="fas fa-moon"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Dashboard Main Content -->
+    <main class="dashboard-container">
+        <section class="dashboard-header glass">
+            <h2>Your Carbon Footprint Dashboard</h2>
+            <!-- New Info Section -->
+            <div class="dashboard-info-grid">
+                <div class="info-card rules">
+                    <h3><i class="fas fa-check-circle"></i> Quick Eco-Tips</h3>
+                    <ul>
+                        <li><i class="fas fa-recycle"></i> Reduce, Reuse, Recycle: Prioritize minimizing waste first.</li>
+                        <li><i class="fas fa-plug"></i> Conserve Energy: Unplug unused devices, switch to LEDs.</li>
+                        <li><i class="fas fa-seedling"></i> Eat Sustainably: Choose local, seasonal foods; reduce meat intake.</li>
+                        <li><i class="fas fa-bus"></i> Travel Smart: Opt for walking, cycling, or public transport when possible.</li>
+                    </ul>
+                </div>
+                <div class="info-card monthly-avg">
+                    <h3><i class="fas fa-chart-bar"></i> Avg. Monthly Impact (2024)</h3>
+                    <p>Based on your simulated data:</p>
+                    <ul id="monthly-averages-list">
+                        <li>Travel: <span id="avg-travel">Calculating...</span> tons CO₂</li>
+                        <li>Food: <span id="avg-food">Calculating...</span> tons CO₂</li>
+                        <li>Shopping: <span id="avg-shopping">Calculating...</span> tons CO₂</li>
+                        <li>Energy: <span id="avg-energy">Calculating...</span> tons CO₂</li>
+                        <li><strong>Total: <span id="avg-total">Calculating...</span> tons CO₂</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab Container -->
+        <div class="tab-container">
+            <!-- Tab Buttons -->
+            <div class="tab-buttons">
+                <button class="tab-button active" data-tab="overview">
+                    <i class="fas fa-chart-line"></i> Overview
+                </button>
+                <button class="tab-button" data-tab="suggestions">
+                    <i class="fas fa-lightbulb"></i> Suggestions
+                </button>
+                <button class="tab-button" data-tab="details">
+                    <i class="fas fa-tasks"></i> Breakdown & Goals
+                </button>
+                <button class="tab-button" data-tab="comparison">
+                    <i class="fas fa-globe-americas"></i> Global Sources
+                </button>
+            </div>
+
+            <!-- Tab Content Panels -->
+            <div id="overview" class="tab-content active">
+                <!-- Main Chart Section -->
+                <section class="dashboard-section main-chart">
+                    <h3>Your Monthly Carbon Emissions (2024)</h3>
+                    <canvas id="emissionsChart"></canvas>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="color-dot travel"></span><span>Travel</span></div>
+                        <div class="legend-item"><span class="color-dot food"></span><span>Food</span></div>
+                        <div class="legend-item"><span class="color-dot shopping"></span><span>Shopping</span></div>
+                        <div class="legend-item"><span class="color-dot energy"></span><span>Energy</span></div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="suggestions" class="tab-content">
+                <!-- Suggestions Section -->
+                <section class="dashboard-section suggestions">
+                    <h3>Generalized Suggestions</h3>
+                    <div class="suggestion-list">
+                        <div class="suggestion-item">
+                            <div class="suggestion-icon"><i class="fas fa-car"></i></div>
+                            <div class="suggestion-content">
+                                <h4>Reduce Car Usage</h4>
+                                <p>Your travel emissions are 30% higher than average. Try carpooling or public transport 2 days a week to reduce by 0.3 tons/year.</p>
+                                <div class="suggestion-impact"><span>Potential reduction: 0.3 tons CO₂/yr</span></div>
+                            </div>
+                        </div>
+                        <div class="suggestion-item">
+                            <div class="suggestion-icon"><i class="fas fa-utensils"></i></div>
+                            <div class="suggestion-content">
+                                <h4>Meat-Free Days</h4>
+                                <p>Adding 2 meat-free days per week could reduce your food carbon footprint by 15%.</p>
+                                <div class="suggestion-impact"><span>Potential reduction: 0.2 tons CO₂/yr</span></div>
+                            </div>
+                        </div>
+                        <div class="suggestion-item">
+                            <div class="suggestion-icon"><i class="fas fa-lightbulb"></i></div>
+                            <div class="suggestion-content">
+                                <h4>Switch to LED Bulbs</h4>
+                                <p>Replacing 5 incandescent bulbs with LEDs could save you $75/year and reduce emissions.</p>
+                                <div class="suggestion-impact"><span>Potential reduction: 0.1 tons CO₂/yr</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <button class="btn primary">View All Suggestions</button> -->
+                </section>
+            </div>
+
+            <div id="details" class="tab-content">
+                <!-- Breakdown and Goals Section -->
+                <section class="dashboard-secondary">
+                    <!-- Emission Breakdown Chart Section -->
+                    <div class="dashboard-section breakdown">
+                        <h3>Your Emission Breakdown</h3>
+                        <!-- Container for the chart canvas -->
+                        <div class="breakdown-chart">
+                            <!-- The canvas element where Chart.js draws the doughnut chart -->
+                            <canvas id="breakdownChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Sustainability Goals Section -->
+                    <div class="dashboard-section goals">
+                        <h3>Your Sustainability Goals</h3>
+                        <div class="goal-list">
+                            <!-- Goal Item 1 -->
+                            <div class="goal-item">
+                                <!-- Container where the SVG progress circle is generated -->
+                                <div class="goal-progress">
+                                    <div class="progress-circle" data-progress="65"></div>
+                                </div>
+                                <div class="goal-content">
+                                    <h4>Reduce Car Usage</h4>
+                                    <p>Target: 3 days/week public transport</p>
+                                    <div class="goal-meta"><span><i class="fas fa-calendar"></i> Ends in 2 weeks</span></div>
+                                </div>
+                            </div>
+                            <!-- Goal Item 2 -->
+                            <div class="goal-item">
+                                 <!-- Container where the SVG progress circle is generated -->
+                                <div class="goal-progress">
+                                    <div class="progress-circle" data-progress="30"></div>
+                                </div>
+                                <div class="goal-content">
+                                    <h4>Meat-Free Days</h4>
+                                    <p>Target: 2 days/week vegetarian</p>
+                                    <div class="goal-meta"><span><i class="fas fa-calendar"></i> Ends in 1 month</span></div>
+                                </div>
+                            </div>
+                            <!-- Add more goals as needed -->
+                        </div>
+                        <button class="btn secondary">Set New Goal</button>
+                    </div>
+                </section>
+            </div>
+
+
+            <div id="comparison" class="tab-content">
+                 <!-- New Global Source Comparison Section -->
+                <section class="dashboard-section source-comparison">
+                    <h3>Typical Global Emission Sources</h3>
+                    <p style="text-align: center; margin-bottom: 20px; color: var(--text-muted-color);">Comparison of major sectors contributing to global greenhouse gas emissions (approximate values).</p>
+                    <div class="source-comparison-chart">
+                        <canvas id="sourceComparisonChart"></canvas>
+                    </div>
+                </section>
+            </div>
+        </div><!-- End Tab Container -->
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>EcoPulseX</h3>
+                <p>Empowering individuals to fight climate change through awareness and action.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="form.html">Your progress</a></li>
+                    <li><a href="learnmore.html">Learn More</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> teamhawks4.official@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 EcoPulseX. All rights reserved.</p>
+            <p>&copy; Backend By SupaBase.</p>
+        </div>
+    </footer>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Include your main script for theme toggle etc. -->
+    <script src="climate.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Tab Functionality ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+
+                    // Update button active state
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Update content active state
+                    tabContents.forEach(content => {
+                        if (content.id === tabId) {
+                            content.classList.add('active');
+                        } else {
+                            content.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // --- Chart Configuration ---
+            const chartColors = {
+                travel: 'rgba(231, 76, 60, 0.8)',    // Red
+                food: 'rgba(52, 152, 219, 0.8)',     // Blue
+                shopping: 'rgba(155, 89, 182, 0.8)', // Purple
+                energy: 'rgba(241, 196, 15, 0.8)',   // Yellow
+                other: 'rgba(149, 165, 166, 0.8)',  // Grey
+                // Global Source Colors
+                energyProd: 'rgba(243, 156, 18, 0.9)', // Orange
+                industry: 'rgba(41, 128, 185, 0.9)',  // Darker Blue
+                agriculture: 'rgba(39, 174, 96, 0.9)', // Green
+                transport: 'rgba(192, 57, 43, 0.9)',   // Darker Red
+                buildings: 'rgba(127, 140, 141, 0.9)', // Darker Grey
+                waste: 'rgba(142, 68, 173, 0.9)'      // Darker Purple
+            };
+
+            const chartHoverColors = {
+                travel: 'rgba(231, 76, 60, 1)',
+                food: 'rgba(52, 152, 219, 1)',
+                shopping: 'rgba(155, 89, 182, 1)',
+                energy: 'rgba(241, 196, 15, 1)',
+                other: 'rgba(149, 165, 166, 1)',
+                energyProd: 'rgba(243, 156, 18, 1)',
+                industry: 'rgba(41, 128, 185, 1)',
+                agriculture: 'rgba(39, 174, 96, 1)',
+                transport: 'rgba(192, 57, 43, 1)',
+                buildings: 'rgba(127, 140, 141, 1)',
+                waste: 'rgba(142, 68, 173, 1)'
+            };
+
+            // --- Fake Data Generation (2024) ---
+            const months2024 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const generateMonthlyData = (base, variation) => {
+                return months2024.map(() => parseFloat((base + (Math.random() - 0.5) * variation).toFixed(2)));
+            };
+
+            const travelData2024 = generateMonthlyData(0.9, 0.4); // Avg 0.9 tons/month, +/- 0.2
+            const foodData2024 = generateMonthlyData(0.7, 0.3);
+            const shoppingData2024 = generateMonthlyData(0.4, 0.3);
+            const energyData2024 = generateMonthlyData(0.5, 0.2);
+
+            // --- Calculate and Display Monthly Averages ---
+            const calculateAverage = (dataArray) => {
+                if (!dataArray || dataArray.length === 0) return 0;
+                const sum = dataArray.reduce((acc, value) => acc + value, 0);
+                return (sum / dataArray.length).toFixed(2); // Return average rounded to 2 decimal places
+            };
+
+            const avgTravel = calculateAverage(travelData2024);
+            const avgFood = calculateAverage(foodData2024);
+            const avgShopping = calculateAverage(shoppingData2024);
+            const avgEnergy = calculateAverage(energyData2024);
+            const avgTotal = (parseFloat(avgTravel) + parseFloat(avgFood) + parseFloat(avgShopping) + parseFloat(avgEnergy)).toFixed(2);
+
+            // Update the HTML elements
+            const avgTravelEl = document.getElementById('avg-travel');
+            const avgFoodEl = document.getElementById('avg-food');
+            const avgShoppingEl = document.getElementById('avg-shopping');
+            const avgEnergyEl = document.getElementById('avg-energy');
+            const avgTotalEl = document.getElementById('avg-total');
+
+            if (avgTravelEl) avgTravelEl.textContent = avgTravel;
+            if (avgFoodEl) avgFoodEl.textContent = avgFood;
+            if (avgShoppingEl) avgShoppingEl.textContent = avgShopping;
+            if (avgEnergyEl) avgEnergyEl.textContent = avgEnergy;
+            if (avgTotalEl) avgTotalEl.textContent = avgTotal;
+
+            // --- END Calculate and Display Monthly Averages ---
+
+
+            // --- Emissions Histogram (Bar Chart) ---
+            const emissionsCtx = document.getElementById('emissionsChart')?.getContext('2d');
+            if (emissionsCtx) {
+                const emissionsChart = new Chart(emissionsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: months2024,
+                        datasets: [
+                            {
+                                label: 'Travel',
+                                data: travelData2024,
+                                backgroundColor: chartColors.travel,
+                                hoverBackgroundColor: chartHoverColors.travel,
+                                borderRadius: 5,
+                                borderWidth: 1,
+                                borderColor: 'rgba(0,0,0,0.1)'
+                            },
+                            {
+                                label: 'Food',
+                                data: foodData2024,
+                                backgroundColor: chartColors.food,
+                                hoverBackgroundColor: chartHoverColors.food,
+                                borderRadius: 5,
+                                borderWidth: 1,
+                                borderColor: 'rgba(0,0,0,0.1)'
+                            },
+                            {
+                                label: 'Shopping',
+                                data: shoppingData2024,
+                                backgroundColor: chartColors.shopping,
+                                hoverBackgroundColor: chartHoverColors.shopping,
+                                borderRadius: 5,
+                                borderWidth: 1,
+                                borderColor: 'rgba(0,0,0,0.1)'
+                            },
+                            {
+                                label: 'Energy',
+                                data: energyData2024,
+                                backgroundColor: chartColors.energy,
+                                hoverBackgroundColor: chartHoverColors.energy,
+                                borderRadius: 5,
+                                borderWidth: 1,
+                                borderColor: 'rgba(0,0,0,0.1)'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { // Enhanced interaction
+                            mode: 'index', // Show tooltip for all datasets at that index
+                            intersect: false,
+                        },
+                        scales: {
+                            x: {
+                                stacked: true,
+                                grid: { display: false },
+                                ticks: {
+                                    color: getComputedStyle(document.body).getPropertyValue('--text-color') || '#eee',
+                                    font: { family: "'Poppins', sans-serif", size: 11 } // Apply font
+                                }
+                            },
+                            y: {
+                                stacked: true,
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Monthly CO₂ Emissions (tons)',
+                                    color: getComputedStyle(document.body).getPropertyValue('--text-color') || '#eee',
+                                    font: { family: "'Poppins', sans-serif", size: 13, weight: '500' } // Apply font
+                                },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                ticks: {
+                                    color: getComputedStyle(document.body).getPropertyValue('--text-color') || '#eee',
+                                    font: { family: "'Poppins', sans-serif", size: 11 } // Apply font
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }, // Using custom legend
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                titleFont: { family: "'Poppins', sans-serif", weight: 'bold', size: 13 }, // Apply font
+                                bodyFont: { family: "'Poppins', sans-serif", size: 12 }, // Apply font
+                                footerFont: { family: "'Poppins', sans-serif", weight: 'bold', size: 12 }, // Apply font
+                                bodySpacing: 4,
+                                padding: 10,
+                                callbacks: {
+                                    // Add total to tooltip footer
+                                    footer: function(tooltipItems) {
+                                        let sum = 0;
+                                        tooltipItems.forEach(function(tooltipItem) {
+                                            sum += tooltipItem.parsed.y;
+                                        });
+                                        return 'Total: ' + sum.toFixed(2) + ' tons';
+                                    }
+                                }
+                            }
+                        },
+                        animation: { // Subtle animation
+                            duration: 800,
+                            easing: 'easeInOutQuart'
+                        }
+                    }
+                });
+            } else { console.error("Emissions chart canvas not found"); }
+
+            // --- User Breakdown Chart (Doughnut) ---
+            const breakdownCtx = document.getElementById('breakdownChart')?.getContext('2d');
+             if (breakdownCtx) {
+                const breakdownChart = new Chart(breakdownCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Travel', 'Food', 'Shopping', 'Energy', 'Other'],
+                        datasets: [{
+                            data: [35, 25, 20, 15, 5], // Example user data
+                            backgroundColor: [
+                                chartColors.travel,
+                                chartColors.food,
+                                chartColors.shopping,
+                                chartColors.energy,
+                                chartColors.other
+                            ],
+                             hoverBackgroundColor: [
+                                chartHoverColors.travel,
+                                chartHoverColors.food,
+                                chartHoverColors.shopping,
+                                chartHoverColors.energy,
+                                chartHoverColors.other
+                            ],
+                            borderWidth: 2,
+                            borderColor: getComputedStyle(document.body).getPropertyValue('--bg-glass') || 'rgba(255, 255, 255, 0.1)' // Match background
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // Allows custom sizing via CSS
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: getComputedStyle(document.body).getPropertyValue('--text-color') || '#eee',
+                                    font: { family: "'Poppins', sans-serif", size: 12 }, // Apply font
+                                    boxWidth: 12,
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                titleFont: { family: "'Poppins', sans-serif", weight: 'bold', size: 13 }, // Apply font
+                                bodyFont: { family: "'Poppins', sans-serif", size: 12 }, // Apply font
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.label}: ${context.raw}%`;
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '70%' // Makes it a doughnut instead of a pie
+                    }
+                });
+            } else { console.error("Breakdown chart canvas not found"); }
+
+
+            // --- NEW: Global Source Comparison Chart (Pie) ---
+            const sourceComparisonCtx = document.getElementById('sourceComparisonChart')?.getContext('2d');
+            if (sourceComparisonCtx) {
+                const sourceComparisonChart = new Chart(sourceComparisonCtx, {
+                    type: 'pie', // Using Pie chart type
+                    data: {
+                        labels: ['Energy Production', 'Industry', 'Agriculture & Land Use', 'Transportation', 'Buildings', 'Waste'],
+                        datasets: [{
+                            label: 'Global Emission Sources (%)',
+                            data: [30, 24, 22, 15, 6, 3], // Approximate global percentages
+                            backgroundColor: [
+                                chartColors.energyProd,
+                                chartColors.industry,
+                                chartColors.agriculture,
+                                chartColors.transport,
+                                chartColors.buildings,
+                                chartColors.waste
+                            ],
+                            hoverBackgroundColor: [
+                                chartHoverColors.energyProd,
+                                chartHoverColors.industry,
+                                chartHoverColors.agriculture,
+                                chartHoverColors.transport,
+                                chartHoverColors.buildings,
+                                chartHoverColors.waste
+                            ],
+                            borderWidth: 2,
+                            borderColor: getComputedStyle(document.body).getPropertyValue('--bg-glass') || 'rgba(255, 255, 255, 0.1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom', // Or 'right'
+                                labels: {
+                                    color: getComputedStyle(document.body).getPropertyValue('--text-color') || '#eee',
+                                    font: { family: "'Poppins', sans-serif", size: 12 }, // Apply font
+                                    boxWidth: 12,
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                titleFont: { family: "'Poppins', sans-serif", weight: 'bold', size: 13 }, // Apply font
+                                bodyFont: { family: "'Poppins', sans-serif", size: 12 }, // Apply font
+                                callbacks: {
+                                    label: function(context) {
+                                        return ` ${context.label}: ${context.raw}%`;
+                                    }
+                                }
+                            },
+                            title: { // Optional title for the chart
+                                display: false, // Set to true to show title
+                                text: 'Approx. Global GHG Emission Sources by Sector',
+                                color: getComputedStyle(document.body).getPropertyValue('--text-color') || '#eee',
+                                padding: { top: 10, bottom: 10 },
+                                font: { family: "'Poppins', sans-serif", size: 14, weight: '500' } // Apply font
+                            }
+                        }
+                    }
+                });
+            } else { console.error("Source comparison chart canvas not found"); }
+
+
+            // --- Progress Circles (Keep existing logic) ---
+            document.querySelectorAll('.progress-circle').forEach(circle => {
+                const progress = circle.getAttribute('data-progress');
+                if (!progress) return; // Skip if no data-progress
+
+                const radius = 30; // Adjusted radius for smaller circle
+                const circumference = 2 * Math.PI * radius;
+                const offset = circumference - (parseInt(progress, 10) / 100) * circumference;
+
+                // Clear previous content if any
+                circle.innerHTML = '';
+
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute("width", "70"); // Match CSS size
+                svg.setAttribute("height", "70");
+                svg.setAttribute("viewBox", "0 0 70 70"); // Adjust viewbox
+
+                const bgCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                bgCircle.setAttribute("class", "progress-bg");
+                bgCircle.setAttribute("cx", "35"); // Center in new viewbox
+                bgCircle.setAttribute("cy", "35");
+                bgCircle.setAttribute("r", radius);
+                bgCircle.setAttribute("stroke-width", "6"); // Slightly thinner stroke
+
+                const progressBar = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                progressBar.setAttribute("class", "progress-bar");
+                progressBar.setAttribute("cx", "35");
+                progressBar.setAttribute("cy", "35");
+                progressBar.setAttribute("r", radius);
+                progressBar.setAttribute("stroke-width", "6");
+                progressBar.setAttribute("stroke-dasharray", circumference);
+                progressBar.setAttribute("stroke-dashoffset", circumference); // Start fully offset
+                progressBar.style.transition = 'stroke-dashoffset 1s ease-out'; // Add transition
+
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", "35"); // Center text
+                text.setAttribute("y", "35");
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("dy", ".3em");
+                text.textContent = `${progress}%`;
+
+                svg.appendChild(bgCircle);
+                svg.appendChild(progressBar);
+                svg.appendChild(text);
+                circle.appendChild(svg);
+
+                // Trigger the animation after appending
+                setTimeout(() => {
+                    progressBar.setAttribute("stroke-dashoffset", offset);
+                }, 100); // Small delay to ensure transition works
+            });
+
+        }); // End DOMContentLoaded
+    </script>
+</body>
+</html>

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPulseX - Community Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="climate.css">
+    <!-- Add specific styles for community page -->
+    <style>
+         /* Basic layout for community sections */
+         .community-container {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .community-section {
+            padding: 25px;
+            min-height: 250px; /* Give sections some base height */
+        }
+
+        .community-section h3 {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-glass, rgba(255, 255, 255, 0.3)); /* Added fallback */
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3em; /* Added font-size */
+        }
+         .community-section h3 i {
+            color: var(--primary-color, #2ecc71);
+         }
+
+        /* Ranking Styles */
+        .ranking-list ol {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .ranking-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-glass, rgba(255, 255, 255, 0.1)); /* Added fallback */
+        }
+         .ranking-list li:last-child {
+            border-bottom: none;
+         }
+        .ranking-list .rank {
+            font-weight: bold;
+            font-size: 1.2em;
+            min-width: 30px;
+            color: var(--primary-color, #2ecc71);
+        }
+        .ranking-list .name {
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+        .ranking-list .points {
+            font-weight: bold;
+            color: var(--accent-color, #f1c40f); /* Use variable */
+        }
+
+        /* Wallet Styles */
+        .wallet-balance {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .wallet-balance .points-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--accent-color, #f1c40f); /* Use variable */
+            display: block;
+            margin-bottom: 5px;
+        }
+        .wallet-balance .points-label {
+            font-size: 0.9em;
+            color: var(--text-muted-color, #ccc); /* Use variable */
+        }
+        .wallet-rewards p {
+            font-size: 0.95em;
+            line-height: 1.5;
+            text-align: center;
+            color: var(--text-muted-color, #ccc); /* Use variable */
+        }
+        .wallet-rewards .highlight {
+             color: var(--primary-color, #2ecc71);
+             font-weight: bold;
+        }
+
+        /* Challenge Styles */
+        .challenge-list .challenge-item {
+            background-color: rgba(0,0,0,0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color, #2ecc71);
+        }
+        body.dark-theme .challenge-list .challenge-item { /* Dark theme adjustment */
+             background-color: rgba(255,255,255,0.1);
+        }
+        .challenge-list h4 {
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        .challenge-list p {
+            font-size: 0.9em;
+            color: var(--text-muted-color, #ddd); /* Use variable */
+            margin-bottom: 8px;
+        }
+        .challenge-list .challenge-reward {
+            font-size: 0.85em;
+            font-weight: bold;
+            color: var(--accent-color, #f1c40f); /* Use variable */
+        }
+
+        /* --- Enhanced Game Styles (community.html) --- */
+
+        /* Make the game section potentially wider on larger screens */
+        @media (min-width: 992px) { /* Adjust breakpoint as needed */
+            .community-section.game {
+                grid-column: span 2; /* Make game span 2 grid columns */
+            }
+        }
+
+        /* --- Styles for Game Wrapper and Score Display --- */
+        .game-wrapper {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 20px;
+            align-items: flex-start; /* Align items to the top */
+        }
+
+        .game-area {
+            flex: 3; /* Game area takes more space */
+            min-width: 300px; /* Ensure game area has minimum width */
+            border: 3px dashed var(--primary-color, #2ecc71);
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        body.dark-theme .game-area {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .game-score-display {
+            flex: 1; /* Score display takes less space */
+            min-width: 180px; /* Minimum width for score box */
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            /* Inherit glass effect from parent or add specific styles */
+            /* background: var(--bg-glass, rgba(255, 255, 255, 0.1)); */
+            /* backdrop-filter: var(--blur-glass, blur(10px)); */
+            /* border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.2)); */
+        }
+
+        .game-score-display h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: var(--primary-color, #2ecc71);
+        }
+
+        .game-score-display .score-value {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--accent-color, #f1c40f);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .game-score-display .score-label {
+            font-size: 0.9em;
+            color: var(--text-muted-color, #ccc);
+        }
+
+        /* Responsive adjustments for the wrapper */
+        @media (max-width: 768px) {
+            .game-wrapper {
+                flex-direction: column; /* Stack game and score on smaller screens */
+                align-items: stretch; /* Make items take full width when stacked */
+            }
+            .game-score-display {
+                margin-top: 20px; /* Add space when stacked */
+            }
+        }
+
+        /* --- End Game Wrapper/Score Styles --- */
+
+
+        .game-area p:first-of-type { /* Target the instruction text */
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: var(--text-muted-color, #ccc); /* Use variable */
+        }
+
+        /* Style the item to be sorted */
+        #sort-item-container {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        #sort-item {
+            font-size: 4.5em; /* Much larger icon */
+            display: inline-block;
+            padding: 20px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.05); /* Subtle background */
+            border-radius: 10px;
+            cursor: default;
+            transition: transform 0.3s ease;
+        }
+        body.dark-theme #sort-item { /* Dark theme adjustment */
+             background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        #sort-item-name {
+            display: block;
+            font-size: 1.1em;
+            color: var(--text-muted-color, #ccc); /* Use variable */
+            min-height: 1.3em; /* Reserve space */
+        }
+
+        /* Style the bins/buttons */
+        .bin-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%; /* Ensure buttons container takes width */
+        }
+
+        .bin-options button {
+            flex-grow: 1;
+            min-width: 120px;
+            padding: 12px 15px;
+            font-size: 1em;
+            margin: 0; /* Remove default margin */
+            /* Inherit base .btn styles for transitions, border-radius etc. */
+        }
+        .bin-options button:hover {
+            transform: translateY(-3px); /* Specific hover lift for game buttons */
+        }
+        .bin-options button i {
+            margin-right: 8px;
+        }
+
+        /* Feedback Styles */
+        #game-feedback {
+            margin-top: 25px;
+            font-size: 1.2em;
+            min-height: 1.5em;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        /* Animation Classes */
+        .correct-animation {
+            transform: scale(1.2) rotate(10deg);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .incorrect-animation {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .game-area.correct-bg {
+            background-color: rgba(46, 204, 113, 0.2); /* Light green flash */
+        }
+
+        .game-area.incorrect-bg {
+            background-color: rgba(231, 76, 60, 0.2); /* Light red flash */
+        }
+
+        /* Shake Animation Keyframes */
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+          20%, 40%, 60%, 80% { transform: translateX(8px); }
+        }
+
+        /* --- Responsive Adjustments for Game (Add within existing media queries if preferred) --- */
+        @media (max-width: 992px) {
+            /* Make game span full width when stacked */
+            .community-section.game {
+                grid-column: auto; /* Reset grid span */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .bin-options {
+                gap: 10px; /* Reduce gap between game buttons */
+            }
+            .bin-options button {
+                min-width: 100px; /* Adjust min-width */
+                font-size: 0.9em;
+                padding: 10px 12px; /* Adjust padding */
+            }
+            #sort-item {
+                font-size: 3.5em; /* Slightly smaller icon on mobile */
+                padding: 15px;
+            }
+            .game-area {
+                min-height: 300px; /* Adjust height */
+                padding: 20px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Animated Background (Same as other pages) -->
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+
+    <!-- Header (Same as other pages, update active class) -->
+    <header class="glass">
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <h1>EcoPulseX</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="form.html">Your Progress</a></li>
+                <li><a href="community.html" class="active">Community Engagement</a></li>
+                <li><a href="documentation.html">Learn More</a></li>
+                <li><a href="#" id="theme-toggle"><i class="fas fa-moon"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Community Main Content -->
+    <main class="community-container">
+
+        <!-- Ranking Section -->
+        <section class="community-section glass ranking">
+            <h3><i class="fas fa-trophy"></i> Eco-Warrior Ranking</h3>
+            <div class="ranking-list">
+                <ol>
+                    <li>
+                        <span class="rank">1</span>
+                        <span class="name">GreenGuardian</span>
+                        <span class="points">15,280 GP</span>
+                    </li>
+                    <li>
+                        <span class="rank">2</span>
+                        <span class="name">PlanetProtector</span>
+                        <span class="points">14,150 GP</span>
+                    </li>
+                    <li>
+                        <span class="rank">3</span>
+                        <span class="name">EcoExplorer</span>
+                        <span class="points">13,990 GP</span>
+                    </li>
+                    <li>
+                        <span class="rank">4</span>
+                        <span class="name">SustainableSam</span>
+                        <span class="points">12,800 GP</span>
+                    </li>
+                     <!-- Add more ranks as needed -->
+                </ol>
+            </div>
+             <a href="#" class="btn secondary" style="margin-top: 20px; display: block; text-align: center;">View Full Leaderboard</a>
+        </section>
+
+        <!-- Green Points Wallet Section -->
+        <section class="community-section glass wallet">
+            <h3><i class="fas fa-wallet"></i> Green Points Wallet</h3>
+            <div class="wallet-balance">
+                <span class="points-value" id="user-points">1,750</span>
+                <span class="points-label">Your Green Points (GP)</span>
+            </div>
+            <div class="wallet-rewards">
+                <p>Earn points for completing challenges, reducing your footprint, and participating in community events. Redeem points for <span class="highlight">exclusive EcoPulseX swags</span> and partner discounts!</p>
+            </div>
+             <a href="#" class="btn primary" style="margin-top: 20px; display: block; text-align: center;">Redeem Rewards</a>
+        </section>
+
+
+        <!-- More Features Section (Example: Challenges) -->
+        <section class="community-section glass challenges">
+             <h3><i class="fas fa-bullseye"></i> Community Challenges</h3>
+             <div class="challenge-list">
+                 <div class="challenge-item">
+                     <h4>Go Meatless Monday</h4>
+                     <p>Skip meat for one day this week.</p>
+                     <span class="challenge-reward">+50 GP</span>
+                 </div>
+                 <div class="challenge-item">
+                     <h4>Cycle Commute Challenge</h4>
+                     <p>Bike or walk to work/school 3 times.</p>
+                     <span class="challenge-reward">+150 GP</span>
+                 </div>
+                 <div class="challenge-item">
+                     <h4>Energy Saver Sprint</h4>
+                     <p>Reduce your electricity usage by 5% this month.</p>
+                     <span class="challenge-reward">+200 GP</span>
+                 </div>
+             </div>
+             <a href="#" class="btn secondary" style="margin-top: 20px; display: block; text-align: center;">View All Challenges</a>
+        </section>
+
+        <!-- Nature Game Section -->
+        <section class="community-section glass game">
+            <h3><i class="fas fa-recycle"></i> Mini-Game: Eco Sort Challenge</h3>
+
+            <!-- Wrapper for game area and score -->
+            <div class="game-wrapper">
+
+                <!-- Game Area -->
+                <div class="game-area">
+                    <p>Can you sort this item correctly?</p>
+                    <div id="sort-item-container">
+                        <div id="sort-item" data-type="recycle">🥤</div>
+                        <span id="sort-item-name">Plastic Cup</span>
+                    </div>
+                    <div class="bin-options">
+                        <button class="btn secondary" data-bin="recycle"><i class="fas fa-recycle"></i> Recycle</button>
+                        <button class="btn secondary" data-bin="compost"><i class="fas fa-leaf"></i> Compost</button>
+                        <button class="btn secondary" data-bin="landfill"><i class="fas fa-trash"></i> Landfill</button>
+                        <button class="btn secondary" data-bin="hazardous"><i class="fas fa-biohazard"></i> Hazardous</button>
+                    </div>
+                    <p id="game-feedback" style="margin-top: 15px; font-weight: bold; min-height: 1.2em;"></p>
+                </div>
+
+                <!-- Game Score Display -->
+                <div class="game-score-display glass">
+                    <h4>Game Score</h4>
+                    <div id="current-game-score" class="score-value">0</div>
+                    <p class="score-label">Points this session</p>
+                </div>
+
+            </div> <!-- End game-wrapper -->
+
+        </section>
+
+
+    </main>
+
+    <!-- Footer (Same as other pages) -->
+    <footer class="glass">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>EcoPulseX</h3>
+                <p>Empowering individuals to fight climate change through awareness and action.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="form.html">Your Progress</a></li>
+                    <li><a href="learnmore.html"  class="active">Learn More</a></li>
+                    <li><a href="community.html" class="active">Community Engagement</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> teamhawks4.official@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 EcoPulseX. All rights reserved.</p>
+            <p>&copy; Backend By SupaBase.</p>
+        </div>
+    </footer>
+
+    <!--JavaScript for the game and theme toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Game Variables & Elements ---
+            const items = [
+                { icon: '🥤', type: 'recycle', name: 'Plastic Cup' },
+                { icon: '🍎', type: 'compost', name: 'Apple Core' },
+                { icon: '📰', type: 'recycle', name: 'Newspaper' },
+                { icon: '🔋', type: 'hazardous', name: 'Battery' },
+                { icon: '🍌', type: 'compost', name: 'Banana Peel' },
+                { icon: '🍾', type: 'recycle', name: 'Glass Bottle' },
+                { icon: '🍕', type: 'landfill', name: 'Greasy Pizza Box' },
+                { icon: '💡', type: 'hazardous', name: 'Light Bulb' },
+                { icon: '🥫', type: 'recycle', name: 'Tin Can' },
+                { icon: '🥚', type: 'compost', name: 'Egg Shells' },
+                { icon: '📱', type: 'hazardous', name: 'Old Phone' },
+                { icon: '📦', type: 'recycle', name: 'Cardboard Box' },
+                { icon: ' Styrofoam', type: 'landfill', name: 'Styrofoam Cup' },
+                { icon: '🍂', type: 'compost', name: 'Yard Waste' },
+                { icon: '🥬', type: 'compost', name: 'Vegetable Scraps' },
+                { icon: '🧴', type: 'recycle', name: 'Plastic Bottle (Shampoo)' },
+                { icon: '🛍️', type: 'landfill', name: 'Plastic Shopping Bag' },
+                { icon: '☕', type: 'compost', name: 'Coffee Grounds & Filter' },
+                { icon: '🔩', type: 'recycle', name: 'Scrap Metal (Clean Foil)' },
+                { icon: '🥛', type: 'recycle', name: 'Milk Carton' },
+                { icon: '🎨', type: 'hazardous', name: 'Paint Can (with paint)' },
+                { icon: '🥩', type: 'landfill', name: 'Meat Scraps' },
+                { icon: '✉️', type: 'recycle', name: 'Junk Mail' },
+                { icon: '💥', type: 'hazardous', name: 'Aerosol Can (not empty)' }
+            ];
+
+            let currentItemIndex = 0;
+            const userPointsElement = document.getElementById('user-points');
+            let userPoints = parseInt(userPointsElement?.textContent?.replace(/,/g, '') || '0', 10);
+            if (isNaN(userPoints)) {
+                userPoints = 0;
+            }
+
+            // --- Game Score Variables ---
+            let currentGameScore = 0; // Score for this session, starts at 0
+            const gameScoreDisplayElement = document.getElementById('current-game-score'); // Get the new score display element
+            const GAME_POINTS_PER_CORRECT = 5; // Points awarded per correct sort in the game
+
+            const sortItemContainer = document.getElementById('sort-item-container');
+            const sortItemElement = document.getElementById('sort-item');
+            const sortItemNameElement = document.getElementById('sort-item-name');
+            const feedbackElement = document.getElementById('game-feedback');
+            const gameAreaElement = document.querySelector('.game-area');
+            const binButtons = document.querySelectorAll('.bin-options button');
+
+            // --- Game Functions ---
+            function displayNextItem() {
+                if (!sortItemElement || !sortItemNameElement || !feedbackElement || !gameAreaElement) {
+                    console.error("Game elements not found!");
+                    return;
+                }
+                currentItemIndex = Math.floor(Math.random() * items.length);
+                const item = items[currentItemIndex];
+                sortItemElement.textContent = item.icon;
+                sortItemElement.dataset.type = item.type;
+                sortItemNameElement.textContent = item.name;
+                feedbackElement.textContent = '';
+                feedbackElement.style.color = 'inherit';
+                sortItemElement.classList.remove('correct-animation', 'incorrect-animation');
+                gameAreaElement.classList.remove('correct-bg', 'incorrect-bg');
+                enableButtons();
+            }
+
+            function disableButtons() {
+                binButtons.forEach(button => button.disabled = true);
+            }
+
+            function enableButtons() {
+                binButtons.forEach(button => button.disabled = false);
+            }
+
+            // --- Function to update game score display ---
+            function updateGameScoreDisplay() {
+                if (gameScoreDisplayElement) {
+                    gameScoreDisplayElement.textContent = currentGameScore;
+                }
+            }
+
+            function handleSort(selectedBin) {
+                if (!sortItemElement || !feedbackElement || !userPointsElement || !gameAreaElement || !gameScoreDisplayElement) {
+                    console.error("Game elements not found during sort check!");
+                    return;
+                }
+
+                disableButtons();
+
+                const correctBin = sortItemElement.dataset.type;
+                const currentItem = items[currentItemIndex];
+
+                sortItemElement.classList.remove('correct-animation', 'incorrect-animation');
+                gameAreaElement.classList.remove('correct-bg', 'incorrect-bg');
+                void sortItemElement.offsetWidth;
+                void gameAreaElement.offsetWidth;
+
+                if (selectedBin === correctBin) {
+                    // --- Update both scores ---
+                    feedbackElement.textContent = `Correct! +${GAME_POINTS_PER_CORRECT} Game Score / +10 GP`;
+                    feedbackElement.style.color = 'var(--primary-color, #2ecc71)';
+
+                    // Update Total Green Points (GP)
+                    userPoints += 10;
+                    userPointsElement.textContent = userPoints.toLocaleString();
+
+                    // Update Current Game Score
+                    currentGameScore += GAME_POINTS_PER_CORRECT;
+                    updateGameScoreDisplay(); // Update the display
+
+                    sortItemElement.classList.add('correct-animation');
+                    gameAreaElement.classList.add('correct-bg');
+
+                } else {
+                    feedbackElement.textContent = `Oops! A ${currentItem.name.toLowerCase()} (${currentItem.icon}) goes in ${correctBin}.`;
+                    feedbackElement.style.color = 'var(--alert-color, #e74c3c)';
+                    sortItemElement.classList.add('incorrect-animation');
+                    gameAreaElement.classList.add('incorrect-bg');
+                    // Optional: Reset game score on incorrect answer?
+                    // currentGameScore = 0;
+                    // updateGameScoreDisplay();
+                }
+
+                setTimeout(() => {
+                    displayNextItem();
+                }, 1500);
+            }
+
+            // --- Theme Toggle Functionality ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle?.querySelector('i');
+
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-theme');
+                    if (themeIcon) {
+                        themeIcon.classList.remove('fa-moon');
+                        themeIcon.classList.add('fa-sun');
+                    }
+                } else {
+                    document.body.classList.remove('dark-theme');
+                    if (themeIcon) {
+                        themeIcon.classList.remove('fa-sun');
+                        themeIcon.classList.add('fa-moon');
+                    }
+                }
+            }
+
+            themeToggle?.addEventListener('click', (e) => {
+                e.preventDefault();
+                const isDark = document.body.classList.toggle('dark-theme');
+                const newTheme = isDark ? 'dark' : 'light';
+                applyTheme(newTheme);
+                localStorage.setItem('theme', newTheme);
+            });
+
+            // --- Initialization ---
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(savedTheme);
+
+            if (userPointsElement) {
+                 userPointsElement.textContent = userPoints.toLocaleString();
+            } else {
+                console.warn("User points element not found.");
+            }
+
+            // --- Initialize game score display ---
+            updateGameScoreDisplay(); // Set initial game score display to 0
+
+            binButtons.forEach(button => {
+                const binType = button.dataset.bin;
+                if (binType) {
+                    button.removeAttribute('onclick');
+                    button.addEventListener('click', () => handleSort(binType));
+                } else {
+                    console.warn("Button found without data-bin attribute:", button);
+                }
+            });
+
+            displayNextItem(); // Start the game
+
+        }); // End DOMContentLoaded
+    </script>
+
+    <!-- Link to main climate.js if it has shared functions -->
+    <!-- <script src="climate.js"></script> -->
+
+</body>
+</html>

@@ -1,0 +1,641 @@
+/* Base Styles */
+:root {
+    --primary-color: #2ecc71;
+    --secondary-color: #3498db;
+    --dark-color: #2c3e50;
+    --darker-color: #1a252f;
+    --light-color: #ecf0f1;
+    --glass-color: rgba(44, 62, 80, 0.7);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --blur-effect: blur(10px);
+}
+
+[data-theme="light"] {
+    --dark-color: #ecf0f1;
+    --darker-color: #bdc3c7;
+    --light-color: #2c3e50;
+    --glass-color: rgba(236, 240, 241, 0.7);
+    --glass-border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Animated Background */
+.bg {
+    animation: slide 12s ease-in-out infinite alternate;
+    background-image: linear-gradient(-60deg, #27ae60 50%, #2980b9 50%);
+    bottom: 0;
+    left: -50%;
+    opacity: 0.2;
+    position: fixed;
+    right: -50%;
+    top: 0;
+    z-index: -3;
+}
+
+.bg2 {
+    animation-direction: alternate-reverse;
+    animation-duration: 16s;
+    opacity: 0.15;
+}
+
+.bg3 {
+    animation-duration: 20s;
+    opacity: 0.1;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(-25%);
+    }
+    100% {
+        transform: translateX(25%);
+    }
+}
+
+/* Glass Effect */
+.glass {
+    background: var(--glass-color);
+    backdrop-filter: var(--blur-effect);
+    -webkit-backdrop-filter: var(--blur-effect);
+    border-radius: 10px;
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    margin: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo i {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--light-color);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+nav a:hover, nav a.active {
+    color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#theme-toggle {
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* --- Hero Section Layout --- */
+
+.hero-with-blog {
+    position: relative; /* Needed for absolute positioning of hero-bg if used */
+    padding: 60px 20px; /* Add some padding around the section */
+    min-height: 70vh; /* Ensure it takes up a good portion of the viewport height */
+    display: flex; /* Use flexbox to center the container */
+    align-items: center; /* Vertically center the container */
+    justify-content: center; /* Horizontally center the container */
+    overflow: hidden; /* Hide overflow from background elements */
+}
+
+/* Optional: Style for the background element if you want an image/gradient */
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Example background: */
+    /* background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('your-background-image.jpg'); */
+    background-size: cover;
+    background-position: center;
+    z-index: -1; /* Place it behind the content */
+}
+
+.hero-container {
+    display: flex; /* Arrange hero-content and blog-sidebar side-by-side */
+    gap: 30px; /* Space between the two columns */
+    width: 100%;
+    max-width: 1200px; /* Limit the maximum width */
+    align-items: flex-start; /* Align items to the top */
+    z-index: 1; /* Ensure content is above the background */
+}
+
+.hero-content {
+    flex: 2; /* Take up more space (e.g., 2/3rds) */
+    padding: 30px; /* Add padding inside the glass effect */
+    /* Ensure glass effect is applied correctly */
+    background: rgba(255, 255, 255, 0.1); /* Example glass background */
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-content h1 {
+    font-size: 2.8em; /* Adjust size as needed */
+    margin-bottom: 15px;
+}
+
+.hero-content .lead {
+    font-size: 1.2em;
+    margin-bottom: 25px;
+    color: #eee; /* Lighter text color often works well on glass */
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 15px; /* Space between buttons */
+}
+
+.blog-sidebar {
+    flex: 1; /* Take up less space (e.g., 1/3rd) */
+    padding: 25px;
+    /* Ensure glass effect is applied correctly */
+    background: rgba(255, 255, 255, 0.1); /* Example glass background */
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-height: 60vh; /* Limit height and allow scrolling if needed */
+    overflow-y: auto; /* Add scrollbar if content exceeds max-height */
+}
+
+.blog-sidebar h3 {
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 10px;
+}
+
+.blog-feed .blog-card {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.blog-feed .blog-card:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.blog-card .blog-date {
+    font-size: 0.8em;
+    color: #ccc;
+    margin-bottom: 5px;
+}
+
+.blog-card h4 {
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+.blog-card p {
+    font-size: 0.9em;
+    color: #ddd;
+    margin-bottom: 10px;
+}
+
+.blog-card .read-more,
+.blog-sidebar .view-all {
+    color: var(--primary-color, #2ecc71); /* Use your primary color variable or a default */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+.blog-sidebar .view-all {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.blog-card .read-more:hover,
+.blog-sidebar .view-all:hover {
+    text-decoration: underline;
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .hero-container {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center items when stacked */
+        gap: 40px; /* Increase gap for vertical stacking */
+    }
+
+    .hero-content,
+    .blog-sidebar {
+        flex: none; /* Reset flex property */
+        width: 90%; /* Control width when stacked */
+        max-width: 600px; /* Limit max width */
+    }
+
+     .blog-sidebar {
+        max-height: none; /* Remove height limit on smaller screens */
+        overflow-y: visible; /* Remove scrollbar */
+    }
+
+    .hero-content h1 {
+        font-size: 2.4em;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-with-blog {
+        padding: 40px 15px;
+        min-height: auto; /* Adjust height for smaller screens */
+    }
+
+    .hero-content h1 {
+        font-size: 2em;
+    }
+
+    .hero-content .lead {
+        font-size: 1.1em;
+    }
+
+    .cta-buttons {
+        flex-direction: column; /* Stack buttons */
+        align-items: flex-start;
+    }
+
+    .cta-buttons .btn {
+        width: 100%; /* Make buttons full width */
+        text-align: center;
+    }
+}
+
+
+
+/* --- Button Styles (Add or Modify in climate.css) --- */
+
+/* Base Button Style */
+.btn {
+    display: inline-block; /* Allows padding and margin */
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px; /* Slightly rounded corners */
+    text-decoration: none; /* Remove underline from links */
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease; /* Smooth transition for hover/active effects */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Primary Button Style (e.g., Calculate Now) */
+.btn.primary {
+    background-color: var(--primary-color, #2ecc71); /* Use your primary color variable or a default */
+    color: #fff; /* White text */
+    border: 1px solid transparent; /* Add border for consistency on hover */
+}
+
+/* Secondary Button Style (e.g., View Dashboard) */
+.btn.secondary {
+    background-color: transparent; /* Transparent background */
+    color: var(--text-color, #fff); /* Use your text color variable or a default */
+    border: 1px solid var(--primary-color, #2ecc71); /* Border matching primary color */
+}
+
+/* --- Dynamic Effects --- */
+
+/* Hover effect for ALL buttons */
+.btn:hover {
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+}
+
+/* Hover effect specific to Primary button */
+.btn.primary:hover {
+    background-color: var(--primary-hover-color, #27ae60); /* Slightly darker shade of primary */
+    /* You could also adjust the border if needed */
+}
+
+/* Hover effect specific to Secondary button */
+.btn.secondary:hover {
+    background-color: var(--primary-color-transparent, rgba(46, 204, 113, 0.1)); /* Light primary background */
+    color: var(--primary-color, #2ecc71); /* Ensure text color matches primary */
+}
+
+/* Active effect (when button is clicked) for ALL buttons */
+.btn:active {
+    transform: translateY(0px); /* Return to original position */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); /* Smaller shadow */
+}
+
+/* Active effect specific to Primary button */
+.btn.primary:active {
+     background-color: var(--primary-active-color, #229954); /* Even darker shade */
+}
+
+/* Active effect specific to Secondary button */
+.btn.secondary:active {
+    background-color: var(--primary-color-transparent-active, rgba(46, 204, 113, 0.2)); /* Slightly darker transparent background */
+}
+
+/* Optional: Add focus styles for accessibility */
+.btn:focus {
+    outline: 2px solid var(--primary-color, #2ecc71);
+    outline-offset: 2px;
+}
+.btn:focus:not(:focus-visible) {
+  /* Remove the focus indicator on mouse-focus for browsers supporting :focus-visible */
+  outline: none;
+}
+
+
+
+
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .hero-container {
+        flex-direction: column;
+    }
+    
+    .hero-content,
+    .blog-sidebar {
+        max-width: 100%;
+        flex: 1;
+    }
+    
+    .blog-sidebar {
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content .lead {
+        font-size: 1.1rem;
+    }
+    
+    .blog-sidebar {
+        padding: 1.5rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+    }
+}
+
+
+/* Features Section */
+.features {
+    padding: 5rem 10%;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card p {
+    color: rgba(236, 240, 241, 0.8);
+    line-height: 1.6;
+}
+
+/* Stats Section */
+.stats {
+    padding: 0 10% 5rem;
+}
+
+.stats-container {
+    padding: 3rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+.stat-item h3 {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+    font-size: 1.1rem;
+}
+
+/* Footer Styles */
+footer {
+    padding: 3rem 10% 1rem;
+    margin-top: 3rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.footer-section p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.social-icons a {
+    color: var(--light-color);
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: var(--primary-color);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section ul li a {
+    color: var(--light-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: var(--primary-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .cta-buttons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    nav ul {
+        gap: 1rem;
+    }
+    
+    .hero-content h2 {
+        font-size: 2.5rem;
+    }
+    
+    .stats-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero {
+        padding: 3rem 5%;
+    }
+    
+    .features, .stats {
+        padding: 3rem 5%;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Add this to climate.css */
+
+.feature-link {
+    color: inherit; /* Makes the link text use the color of its parent */
+    text-decoration: none; /* Removes the underline */
+    display: block; /* Ensures the link takes up the full card space */
+  }
+  
+  /* Optional: Ensure hover effects still apply to the card within the link */
+  .feature-link:hover .feature-card {
+    /* Make sure your existing hover styles for .feature-card are here */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    /* Add any other hover styles you had */
+  }
+  
+  /* Optional: Remove focus outline if it looks odd (consider accessibility) */
+  /*
+  .feature-link:focus {
+    outline: none;
+  }
+  .feature-link:focus .feature-card {
+     Optional: Add a subtle focus style like a border or slightly different shadow
+    box-shadow: 0 0 0 2px var(--primary-color);
+  }
+  */
+  
